@@ -1,5 +1,5 @@
 class PicsController < ApplicationController
-	#before_action :find_params, only: [:index, :new,] 
+	before_action :find_pic, only: [:edit, :show, :update, :destroy] 
 
 	def index
 		
@@ -11,6 +11,12 @@ class PicsController < ApplicationController
 
 	def create
 		@pic = Pic.new(pic_params)
+
+		if @pic.save
+			redirect_to @pic, notice: "Yesssss! Its was Posted"
+		else
+			render "new"
+		end
 	end
 
 	private
@@ -19,7 +25,7 @@ class PicsController < ApplicationController
 		params.require(:pic).permit(:title, :description)
 	end
 
-	def find_params
-		@pic = Pic.find(pic_params[:id])
+	def find_pic
+		@pic = Pic.find(params[:id])
 	end
 end

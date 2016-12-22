@@ -2,7 +2,7 @@
 	- if @pic.errors.any?
 		#errors
 			%h2
-			= pluralize(@pic.errors.count, "errors")
+			= pluralize(@pic.errors.count, "error")
 			prevented this Pic from saving
 			%ul
 				- @pic.errors.full_massages.each do |msg|
