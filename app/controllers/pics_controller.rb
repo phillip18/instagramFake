@@ -2,15 +2,15 @@ class PicsController < ApplicationController
 	before_action :find_pic, only: [:edit, :show, :update, :destroy] 
 
 	def index
-		@pics = Pic.all.order("created_at DESC")
+		@pics = Pic.all.order("created_at DESC").where(user_id: current_user)
 	end
 
 	def new
-		@pic = Pic.new
+		@pic = current_user.pics.build
 	end
 
 	def create
-		@pic = Pic.new(pic_params)
+		@pic = current_user.pics.build(pic_params)
 
 		if @pic.save
 			redirect_to @pic, notice: "Yesssss! Its was Posted"
@@ -40,7 +40,7 @@ class PicsController < ApplicationController
 	private
 
 	def pic_params
-		params.require(:pic).permit(:title, :description)
+		params.require(:pic).permit(:title, :description, :user_id)
 	end
 
 	def find_pic
